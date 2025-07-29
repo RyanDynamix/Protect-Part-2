@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+
+    <!-- Auth -->
+    <servlet>
+        <servlet-name>authController</servlet-name>
+        <servlet-class>controller.authController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>authController</servlet-name>
+        <url-pattern>/auth</url-pattern>
+    </servlet-mapping>
+
+    <!-- Feedback -->
+    <servlet>
+        <servlet-name>FeedbackController</servlet-name>
+        <servlet-class>controller.FeedbackController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FeedbackController</servlet-name>
+        <url-pattern>/FeedbackController</url-pattern>
+    </servlet-mapping>
+
+    <!-- homePageController (using annotation-based mapping) -->
+    <servlet>
+        <servlet-name>homePageController</servlet-name>
+        <servlet-class>controller.homePageController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>homePageController</servlet-name>
+        <url-pattern>/homePage</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Admin Controllers -->
+    <servlet>
+        <servlet-name>orderController</servlet-name>
+        <servlet-class>controller.orderController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>adminCustomer</servlet-name>
+        <servlet-class>controller.adminCustomer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>index</servlet-name>
+        <servlet-class>controller.index</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>adminProduct</servlet-name>
+        <servlet-class>controller.adminProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>addProduct</servlet-name>
+        <servlet-class>controller.addProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>customerController</servlet-name>
+        <servlet-class>controller.customerController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>detailController</servlet-name>
+        <servlet-class>controller.detailController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>adminDetailProduct</servlet-name>
+        <servlet-class>controller.adminDetailProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>productController</servlet-name>
+        <servlet-class>controller.productController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>adminDiscountController</servlet-name>
+        <servlet-class>controller.adminDiscountController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>editProduct</servlet-name>
+        <servlet-class>controller.editProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>editProductDetail</servlet-name>
+        <servlet-class>controller.editProductDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NotificationController</servlet-name>
+        <servlet-class>controller.NotificationController</servlet-class>
+    </servlet>
+
+    <!-- Admin Mappings -->
+    <servlet-mapping>
+        <servlet-name>editProduct</servlet-name>
+        <url-pattern>/editProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>editProductDetail</servlet-name>
+        <url-pattern>/editProductDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>productController</servlet-name>
+        <url-pattern>/Admin/products</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>customerController</servlet-name>
+        <url-pattern>/Admin/customers</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>detailController</servlet-name>
+        <url-pattern>/Admin/orders-details</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>adminProduct</servlet-name>
+        <url-pattern>/Admin/adminProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addProduct</servlet-name>
+        <url-pattern>/Admin/addProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>orderController</servlet-name>
+        <url-pattern>/Admin/orders</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>adminCustomer</servlet-name>
+        <url-pattern>/Admin/adminCustomer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>index</servlet-name>
+        <url-pattern>/Admin/index</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>adminDiscountController</servlet-name>
+        <url-pattern>/Admin/adminDiscount</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>editProduct</servlet-name>
+        <url-pattern>/Admin/editProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>editProductDetail</servlet-name>
+        <url-pattern>/Admin/editProductDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NotificationController</servlet-name>
+        <url-pattern>/notifications</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NotificationController</servlet-name>
+        <url-pattern>/Admin/notifications</url-pattern>
+    </servlet-mapping>
+
+    <!-- VNPay -->
+    <!-- Uncomment if needed -->
+    
+    <servlet>
+        <servlet-name>ajaxServlet</servlet-name>
+        <servlet-class>controller.payment.ajaxServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ajaxServlet</servlet-name>
+        <url-pattern>/payment</url-pattern>
+    </servlet-mapping>
+    
+
+    <servlet> 
+        <servlet-name>VnpayReturn</servlet-name>
+        <servlet-class>controller.payment.VnpayReturn</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VnpayReturn</servlet-name>
+        <url-pattern>/vnpayReturn</url-pattern>
+    </servlet-mapping>
+
+    <!-- PayOS Return -->
+    <servlet>
+        <servlet-name>ReturnPayOS</servlet-name>
+        <servlet-class>controller.payment.ReturnPayOS</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReturnPayOS</servlet-name>
+        <url-pattern>/returnPayOS</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Additional Controllers -->
+    <servlet>
+        <servlet-name>shoppingCartController</servlet-name>
+        <servlet-class>controller.shoppingCartController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>shoppingCartController</servlet-name>
+        <url-pattern>/shopping</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>productDetailController</servlet-name>
+        <servlet-class>controller.productDetailController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>productDetailController</servlet-name>
+        <url-pattern>/productDetail</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>deliveryListController</servlet-name>
+        <servlet-class>controller.deliveryListController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deliveryListController</servlet-name>
+        <url-pattern>/deliveryList</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>LoginGoogleController</servlet-name>
+        <servlet-class>feature.loginGoogle.LoginGoogleController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginGoogleController</servlet-name>
+        <url-pattern>/loginGoogle</url-pattern>
+    </servlet-mapping>
+
+    <!-- Welcome Page -->
+    <welcome-file-list>
+        <welcome-file>homePage</welcome-file>
+    </welcome-file-list>
+
+</web-app>
