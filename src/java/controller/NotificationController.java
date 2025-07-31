@@ -23,10 +23,6 @@ public class NotificationController extends HttpServlet {
         notificationDAO = new NotificationDAO();
     }
 
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     * Load notifications for display
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
