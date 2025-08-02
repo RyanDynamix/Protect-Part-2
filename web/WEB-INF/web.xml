@@ -216,6 +216,16 @@
         <url-pattern>/loginGoogle</url-pattern>
     </servlet-mapping>
 
+    <!-- Chat Controller -->
+    <servlet>
+        <servlet-name>ChatController</servlet-name>
+        <servlet-class>controller.ChatController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChatController</servlet-name>
+        <url-pattern>/chat</url-pattern>
+    </servlet-mapping>
+
     <!-- Welcome Page -->
     <welcome-file-list>
         <welcome-file>homePage</welcome-file>

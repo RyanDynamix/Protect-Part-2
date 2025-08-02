@@ -23,6 +23,8 @@
     </head>
 
     <body>
+        <!-- Chat Widget -->
+        <jsp:include page="chat-widget.jsp" />
         <header class="position-fixed w-100 bg-light hight--header d-flex flex-column">
             <div class="bannerTopHead container-fluid d-none d-lg-block">
                 <div class="row">
