@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>web/tablet_list.jsp</url>
+            <bookmark id="1">
+                <name/>
+                <line>215</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group name="Group 20250322-09:47:37">
+            <file>file:/D:/HexTech_DuyHung/HexTech/src/java/controller/addProduct.java</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/src/java/controller/customerController.java</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/web/Admin/feedback_list.jsp</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/web/Admin/discounts.jsp</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/web/userMainPage.jsp</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/src/java/controller/productDetailController.java</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/web/Admin/add-products.jsp</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/src/java/dal/DBContext.java</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/web/phone_list.jsp</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/web/productDetails.jsp</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/src/java/controller/authController.java</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/src/java/controller/payment/ReturnPayOS.java</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/src/java/controller/editProduct.java</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/src/java/feature/loginGoogle/GoogleAcc.java</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/web/Admin/add-customer.jsp</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/src/java/model/Orders.java</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/src/java/controller/shoppingCartController.java</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/src/java/dal/OrderDAO.java</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/web/Admin/customers.jsp</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/web/img_svg/oppo-reno11-thumnail.jpg</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/web/Admin/notifications.jsp</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/web/shoppingCart.jsp</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/web/Admin/feedback_form.jsp</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/src/java/feature/sendEmail/Email.java</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/web/Admin/products.jsp</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/web/Admin/orders.jsp</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/src/java/controller/deliveryListController.java</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/src/java/feature/loginGoogle/LoginGoogleController.java</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/src/java/dal/UserDAO.java</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/src/java/dal/DatabaseInfo.java</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/src/java/controller/adminProduct.java</file>
+            <file>file:/D:/HexTech_DuyHung/HexTech/web/Admin/index.jsp</file>
+        </group>
+        <group>
+            <file>file:/C:/Users/tphuy/Downloads/Protect-Part-2-main/Protect-Part-2-main/web/Admin/products.jsp</file>
+            <file>file:/C:/Users/tphuy/Downloads/Protect-Part-2-main/Protect-Part-2-main/web/Admin/add-products.jsp</file>
+            <file>file:/C:/Users/tphuy/Downloads/Protect-Part-2-main/Protect-Part-2-main/src/java/dal/ProductDAO.java</file>
+            <file>file:/C:/Users/tphuy/Downloads/Protect-Part-2-main/Protect-Part-2-main/src/java/controller/productController.java</file>
+            <file>file:/C:/Users/tphuy/Downloads/Protect-Part-2-main/Protect-Part-2-main/src/java/controller/addProduct.java</file>
+            <file>file:/C:/Users/tphuy/Downloads/Protect-Part-2-main/Protect-Part-2-main/src/java/controller/productDetailController.java</file>
+        </group>
+    </open-files>
+</project-private>
