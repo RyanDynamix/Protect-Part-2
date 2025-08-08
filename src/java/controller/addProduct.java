@@ -13,10 +13,17 @@ import model.ProductDetail;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
+@MultipartConfig
 public class addProduct extends HttpServlet {
 
     private static final Logger LOGGER = Logger.getLogger(addProduct.class.getName());
+    private static final String UPLOAD_DIRECTORY = "D:\\HexTech_DuyHung\\HexTech (2)\\HexTech\\web\\Admin\\img_svg";
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -52,6 +59,13 @@ public class addProduct extends HttpServlet {
             LOGGER.log(Level.INFO, "Starting to process form data...");
             LOGGER.log(Level.INFO, "Request content type: {0}", request.getContentType());
             LOGGER.log(Level.INFO, "Request method: {0}", request.getMethod());
+            
+            // Create upload directory if it doesn't exist
+            File uploadDir = new File(UPLOAD_DIRECTORY);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+                LOGGER.log(Level.INFO, "Created upload directory: {0}", UPLOAD_DIRECTORY);
+            }
             
             // Use standard getParameter since we removed multipart
             String name = request.getParameter("name");
@@ -121,31 +135,53 @@ public class addProduct extends HttpServlet {
                 return;
             }
 
-            // Handle image names (text input instead of file upload)
-            String thumbnail = request.getParameter("thumbnail");
-            String imagesStr = request.getParameter("images");
+            // Handle image uploads - Thumbnail
+            String thumbnail = null;
             List<String> imagePaths = new ArrayList<>();
             
-            LOGGER.log(Level.INFO, "Processing image names...");
+            LOGGER.log(Level.INFO, "Processing image uploads...");
             
-            // Convert thumbnail name to database path format
-            if (thumbnail != null && !thumbnail.trim().isEmpty()) {
-                thumbnail = "./img_svg/0_picProduct/" + thumbnail.trim();
-                LOGGER.log(Level.INFO, "Thumbnail path: {0}", thumbnail);
+            // Process thumbnail image
+            Part thumbnailPart = request.getPart("thumbnail");
+            if (thumbnailPart != null && thumbnailPart.getSize() > 0) {
+                String fileName = getSubmittedFileName(thumbnailPart);
+                if (fileName != null && !fileName.isEmpty()) {
+                    // Save file to disk
+                    File thumbnailFile = new File(UPLOAD_DIRECTORY, fileName);
+                    Files.copy(thumbnailPart.getInputStream(), thumbnailFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    LOGGER.log(Level.INFO, "Saved thumbnail file: {0}", thumbnailFile.getAbsolutePath());
+                    
+                    // Create database path
+                    thumbnail = "./img_svg/" + fileName;
+                    LOGGER.log(Level.INFO, "Thumbnail path for DB: {0}", thumbnail);
+                }
+            } else {
+                LOGGER.log(Level.WARNING, "No thumbnail file submitted");
+                request.setAttribute("errorMessage", "Vui lòng chọn ảnh chính cho sản phẩm");
+                request.getRequestDispatcher("add-products.jsp").forward(request, response);
+                return;
             }
             
             // Process additional images
-            if (imagesStr != null && !imagesStr.trim().isEmpty()) {
-                String[] imageNames = imagesStr.split(",");
-                for (String imageName : imageNames) {
-                    String trimmedName = imageName.trim();
-                    if (!trimmedName.isEmpty()) {
-                        String imagePath = "./img_svg/0_picProduct/" + trimmedName;
-                        imagePaths.add(imagePath);
-                        LOGGER.log(Level.INFO, "Additional image path: {0}", imagePath);
-                    }
+            List<Part> imageParts = request.getParts().stream()
+                    .filter(part -> "images".equals(part.getName()) && part.getSize() > 0)
+                    .toList();
+            
+            for (Part imagePart : imageParts) {
+                String fileName = getSubmittedFileName(imagePart);
+                if (fileName != null && !fileName.isEmpty()) {
+                    // Save file to disk
+                    File imageFile = new File(UPLOAD_DIRECTORY, fileName);
+                    Files.copy(imagePart.getInputStream(), imageFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    LOGGER.log(Level.INFO, "Saved additional image: {0}", imageFile.getAbsolutePath());
+                    
+                    // Create database path
+                    String imagePath = "./img_svg/" + fileName;
+                    imagePaths.add(imagePath);
+                    LOGGER.log(Level.INFO, "Additional image path for DB: {0}", imagePath);
                 }
             }
+            
             LOGGER.log(Level.INFO, "Image processing completed. Total additional images: {0}", imagePaths.size());
 
             ProductDAO dao = new ProductDAO();
@@ -270,6 +306,18 @@ public class addProduct extends HttpServlet {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error inserting galleries: {0}", e.getMessage());
         }
+    }
+
+    // Helper method to extract file name from Part
+    private String getSubmittedFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] tokens = contentDisp.split(";");
+        for (String token : tokens) {
+            if (token.trim().startsWith("filename")) {
+                return token.substring(token.indexOf("=") + 2, token.length() - 1);
+            }
+        }
+        return null;
     }
 
     @Override
