@@ -32,7 +32,7 @@
 //        
 //        String vnp_TxnRef = Config.getRandomNumber(8);
 //        String vnp_IpAddr = Config.getIpAddress(req);
-//
+
 //        String vnp_TmnCode = Config.vnp_TmnCode;
 //        
 //        Map<String, String> vnp_Params = new HashMap<>();
@@ -48,7 +48,7 @@
 //        vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
 //        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
 //        vnp_Params.put("vnp_OrderType", orderType);
-//
+
 //        String locate = req.getParameter("language");
 //        if (locate != null && !locate.isEmpty()) {
 //            vnp_Params.put("vnp_Locale", locate);
@@ -57,7 +57,7 @@
 //        }
 //        vnp_Params.put("vnp_ReturnUrl", Config.vnp_ReturnUrl);
 //        vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
-//
+
 //        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
 //        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 //        String vnp_CreateDate = formatter.format(cld.getTime());
@@ -101,5 +101,5 @@
 //        Gson gson = new Gson();
 //        resp.getWriter().write(gson.toJson(job));
 //    }
-//
+
 //}

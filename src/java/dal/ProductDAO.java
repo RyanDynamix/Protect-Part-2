@@ -1923,4 +1923,27 @@ public class ProductDAO extends DBContext {
             System.out.println("Error closing resources: " + e.getMessage());
         }
     }
+
+    /**
+     * Delete a specific gallery image for a product
+     * 
+     * @param productId The product ID
+     * @param imagePath The image path to delete
+     * @return true if successful, false otherwise
+     */
+    public boolean deleteGalleryImage(int productId, String imagePath) {
+        String sql = "DELETE FROM Galleries WHERE productID = ? AND picLink = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setInt(1, productId);
+            ps.setString(2, imagePath);
+            
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("Error deleting gallery image: " + e.getMessage());
+            return false;
+        }
+    }
 }

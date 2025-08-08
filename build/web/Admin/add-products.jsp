@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- Force JSP recompilation after fixing EL expression conflicts --%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -326,7 +327,7 @@
                                                     </div>
 
                                                     <!-- Form không multipart nữa vì không upload file -->
-                                                    <form id="productForm" action="${pageContext.request.contextPath}/Admin/addProduct" method="post">
+                                                    <form id="productForm" action="${pageContext.request.contextPath}/Admin/addProduct" method="post" enctype="multipart/form-data">
                                                         <div class="card mb-3">
                                                             <div class="card-header bg-primary text-white">
                                                                 <h4 class="card-title mb-0">Thông tin cơ bản</h4>
@@ -485,16 +486,18 @@
                                                                 <div class="row">
                                                                     <div class="col-md-6">
                                                                         <div class="mb-3">
-                                                                            <label for="thumbnail" class="form-label">Tên ảnh chính <span class="text-danger">*</span></label>
-                                                                            <input id="thumbnail" name="thumbnail" type="text" class="form-control" placeholder="Ví dụ: iphone15_red.jpg" required/>
-                                                                            <small class="form-text text-muted">Nhập tên file ảnh chính (đã có sẵn trên server)</small>
+                                                                            <label for="thumbnail" class="form-label">Ảnh chính <span class="text-danger">*</span></label>
+                                                                            <input id="thumbnail" name="thumbnail" type="file" class="form-control" accept="image/*" required onchange="previewImage(this, 'thumbnail-preview')"/>
+                                                                            <div id="thumbnail-preview" class="mt-2"></div>
+                                                                            <small class="form-text text-muted">Chọn ảnh chính cho sản phẩm</small>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="mb-3">
-                                                                            <label for="images" class="form-label">Tên ảnh bổ sung</label>
-                                                                            <input id="images" name="images" type="text" class="form-control" placeholder="Ví dụ: iphone15_1.jpg,iphone15_2.jpg"/>
-                                                                            <small class="form-text text-muted">Nhập tên các file ảnh bổ sung, cách nhau bằng dấu phẩy</small>
+                                                                            <label for="images" class="form-label">Ảnh bổ sung</label>
+                                                                            <input id="images" name="images" type="file" class="form-control" multiple accept="image/*" onchange="previewMultipleImages(this, 'images-preview')"/>
+                                                                            <div id="images-preview" class="mt-2"></div>
+                                                                            <small class="form-text text-muted">Chọn nhiều ảnh bổ sung cho sản phẩm</small>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1035,6 +1038,56 @@
         #colorFieldsContainer .color-field-container:first-of-type {
             display: inline-block;
         }
+        
+        /* Image Preview Styles */
+        .image-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .image-preview-item {
+            border: 2px solid #e3e6f0;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: #f8f9fc;
+            text-align: center;
+            transition: all 0.3s ease;
+            flex: 0 0 auto;
+            width: 180px;
+        }
+        
+        .image-preview-item:hover {
+            border-color: #4e73df;
+            box-shadow: 0 0 10px rgba(78, 115, 223, 0.2);
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 150px;
+            width: auto;
+            height: auto;
+            border-radius: 5px;
+            object-fit: cover;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .image-info {
+            margin-top: 8px;
+            padding: 8px;
+            background-color: #fff;
+            border-radius: 4px;
+            border: 1px solid #e3e6f0;
+            text-align: center;
+        }
+        
+        .image-info small {
+            display: block;
+            line-height: 1.2;
+            word-break: break-word;
+        }
     </style>
     <script>
                                     // Set today's date as default for date fields
@@ -1064,6 +1117,91 @@
     </script>
 
     <script>
+        // Image preview functions - Updated to avoid EL expression conflicts
+        function previewImage(input, previewId) {
+            const preview = document.getElementById(previewId);
+            preview.innerHTML = '';
+            
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                
+                // Check if file is an image
+                if (!file.type.startsWith('image/')) {
+                    preview.innerHTML = '<div class="alert alert-warning">Vui lòng chọn file ảnh!</div>';
+                    return;
+                }
+                
+                // Check file size (10MB limit)
+                if (file.size > 10 * 1024 * 1024) {
+                    preview.innerHTML = '<div class="alert alert-warning">File quá lớn! Tối đa 10MB.</div>';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgContainer = document.createElement('div');
+                    imgContainer.className = 'image-preview-container';
+                    imgContainer.innerHTML = 
+                        '<div class="image-preview-item">' +
+                            '<img src="' + e.target.result + '" alt="Preview" class="preview-image" />' +
+                            '<div class="image-info">' +
+                                '<small class="text-muted">' +
+                                    '<strong>' + file.name + '</strong>' +
+                                '</small>' +
+                            '</div>' +
+                        '</div>';
+                    preview.appendChild(imgContainer);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function previewMultipleImages(input, previewId) {
+            const preview = document.getElementById(previewId);
+            preview.innerHTML = '';
+            
+            if (input.files && input.files.length > 0) {
+                const files = Array.from(input.files);
+                
+                // Check file count
+                if (files.length > 10) {
+                    preview.innerHTML = '<div class="alert alert-warning">Tối đa 10 ảnh bổ sung!</div>';
+                    return;
+                }
+                
+                files.forEach((file, index) => {
+                    // Check if file is an image
+                    if (!file.type.startsWith('image/')) {
+                        preview.innerHTML += '<div class="alert alert-warning">File "' + file.name + '" không phải là ảnh!</div>';
+                        return;
+                    }
+                    
+                    // Check file size (10MB limit)
+                    if (file.size > 10 * 1024 * 1024) {
+                        preview.innerHTML += '<div class="alert alert-warning">File "' + file.name + '" quá lớn! Tối đa 10MB.</div>';
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imgContainer = document.createElement('div');
+                        imgContainer.className = 'image-preview-container';
+                        imgContainer.innerHTML = 
+                            '<div class="image-preview-item">' +
+                                '<img src="' + e.target.result + '" alt="Preview ' + (index + 1) + '" class="preview-image" />' +
+                                '<div class="image-info">' +
+                                    '<small class="text-muted">' +
+                                        '<strong>' + file.name + '</strong>' +
+                                    '</small>' +
+                                '</div>' +
+                            '</div>';
+                        preview.appendChild(imgContainer);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        }
+        
         // Debug form submission
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('productForm');

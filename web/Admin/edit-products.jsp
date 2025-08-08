@@ -266,7 +266,7 @@
                                     </c:if>
 
                                     <!-- Edit Product Form -->
-                                    <form action="editProduct" method="post">
+                                    <form action="editProduct" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="action" value="updateProduct">
                                         <input type="hidden" name="productId" value="${product.productID}">
                                         
@@ -303,6 +303,50 @@
                                         <div class="mb-3">
                                             <label for="quantity" class="form-label">Số lượng *</label>
                                             <input id="quantity" name="quantity" type="number" min="0" class="form-control" value="${product.quantity}" required/>
+                                        </div>
+                                        
+                                        <!-- Product Image Section -->
+                                        <h5 class="mb-3 mt-4">Hình ảnh sản phẩm</h5>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="thumbnail" class="form-label">Ảnh chính</label>
+                                                    <input id="thumbnail" name="thumbnail" type="file" class="form-control" accept="image/*" onchange="previewImage(this, 'thumbnail-preview')"/>
+                                                    <div class="mt-2">
+                                                        <div id="thumbnail-preview" class="mt-2">
+                                                            <c:if test="${not empty product.thumbnail}">
+                                                                <div class="d-flex align-items-center">
+                                                                    <img src="${product.thumbnail}" alt="Thumbnail" style="max-height: 100px; max-width: 100px;" class="me-2">
+                                                                    <span class="text-muted">Ảnh hiện tại</span>
+                                                                </div>
+                                                            </c:if>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="galleries" class="form-label">Ảnh bổ sung</label>
+                                                    <input id="galleries" name="galleries" type="file" class="form-control" multiple accept="image/*" onchange="previewMultipleImages(this, 'gallery-preview')"/>
+                                                    <div id="gallery-preview" class="mt-2"></div>
+                                                    <c:if test="${not empty galleries}">
+                                                        <div class="mt-3">
+                                                            <h6>Ảnh bổ sung hiện tại:</h6>
+                                                            <div class="d-flex flex-wrap">
+                                                                <c:forEach var="gallery" items="${galleries}" varStatus="status">
+                                                                    <div class="position-relative me-3 mb-3 gallery-item" id="gallery-item-${status.index}">
+                                                                        <img src="${gallery}" alt="Gallery" style="height: 100px; width: 100px; object-fit: cover;" class="border rounded">
+                                                                        <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0" 
+                                                                                onclick="deleteGalleryImage('${gallery}', ${product.productID}, ${status.index})">
+                                                                            <i class="mdi mdi-close"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </c:forEach>
+                                                            </div>
+                                                        </div>
+                                                    </c:if>
+                                                </div>
+                                            </div>
                                         </div>
                                         
                                         <div class="text-center mb-4">
@@ -787,6 +831,129 @@
             
             // Redirect to auth.jsp
             window.location.href = '../auth.jsp';
+        }
+    </script>
+
+    <!-- Add JavaScript for image preview and delete functionality -->
+    <script>
+        function previewImage(input, previewId) {
+            const preview = document.getElementById(previewId);
+            preview.innerHTML = '';
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.maxHeight = '100px';
+                    img.style.maxWidth = '100px';
+                    img.classList.add('me-2');
+                    
+                    const container = document.createElement('div');
+                    container.classList.add('d-flex', 'align-items-center');
+                    container.appendChild(img);
+                    
+                    const label = document.createElement('span');
+                    label.innerText = 'Ảnh đã chọn';
+                    label.classList.add('text-success');
+                    container.appendChild(label);
+                    
+                    preview.appendChild(container);
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        
+        function previewMultipleImages(input, previewId) {
+            const preview = document.getElementById(previewId);
+            preview.innerHTML = '';
+            
+            if (input.files) {
+                const container = document.createElement('div');
+                container.classList.add('d-flex', 'flex-wrap');
+                
+                const fileCount = Math.min(input.files.length, 10); // Limit to 10 previews
+                
+                if (fileCount > 0) {
+                    const label = document.createElement('h6');
+                    label.innerText = 'Ảnh đã chọn:';
+                    label.classList.add('w-100', 'mb-2', 'text-success');
+                    preview.appendChild(label);
+                }
+                
+                for (let i = 0; i < fileCount; i++) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const imgContainer = document.createElement('div');
+                        imgContainer.classList.add('position-relative', 'me-3', 'mb-3');
+                        
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.style.height = '100px';
+                        img.style.width = '100px';
+                        img.style.objectFit = 'cover';
+                        img.classList.add('border', 'rounded');
+                        
+                        imgContainer.appendChild(img);
+                        container.appendChild(imgContainer);
+                    }
+                    
+                    reader.readAsDataURL(input.files[i]);
+                }
+                
+                preview.appendChild(container);
+            }
+        }
+        
+        function deleteGalleryImage(imagePath, productId, index) {
+            if (confirm('Bạn có chắc chắn muốn xóa ảnh này không?')) {
+                // Add console logs for debugging
+                console.log('Deleting gallery image:', imagePath);
+                console.log('Product ID:', productId);
+                console.log('Index:', index);
+                
+                // Send AJAX request to delete the image
+                fetch('editProduct?action=deleteGalleryImage&productId=' + productId + '&imagePath=' + encodeURIComponent(imagePath), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                })
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.status);
+                    }
+                    return response.text(); // First get the text response
+                })
+                .then(text => {
+                    console.log('Raw response:', text);
+                    // Try to parse it as JSON
+                    try {
+                        return JSON.parse(text);
+                    } catch (err) {
+                        console.error('Error parsing JSON:', err);
+                        throw new Error('Invalid JSON response from server');
+                    }
+                })
+                .then(data => {
+                    console.log('Parsed data:', data);
+                    if (data.success) {
+                        // Remove the image from the DOM
+                        document.getElementById('gallery-item-' + index).remove();
+                        alert('Đã xóa ảnh thành công!');
+                    } else {
+                        alert('Không thể xóa ảnh: ' + (data.message || 'Lỗi không xác định'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi xóa ảnh: ' + error.message);
+                });
+            }
         }
     </script>
 
