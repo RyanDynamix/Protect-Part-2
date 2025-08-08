@@ -18,10 +18,10 @@
 //public class VnpayQuery extends HttpServlet {
 //
 //    @Override
-//
+
 //    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        //Command:querydr
-//
+
 //        String vnp_RequestId = Config.getRandomNumber(8);
 //        String vnp_Version = "2.1.0";
 //        String vnp_Command = "querydr";

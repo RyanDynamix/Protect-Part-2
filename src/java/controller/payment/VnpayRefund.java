@@ -18,9 +18,9 @@
 //public class VnpayRefund extends HttpServlet {
 //
 //    @Override
-//
+
 //    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//
+
 //        //Command: refund
 //        String vnp_RequestId = Config.getRandomNumber(8);
 //        String vnp_Version = "2.1.0";
@@ -40,9 +40,9 @@
 //        String vnp_CreateDate = formatter.format(cld.getTime());
 //        
 //        String vnp_IpAddr = Config.getIpAddress(req);
-//
+
 //        JsonObject  vnp_Params = new JsonObject ();
-//
+
 //        vnp_Params.addProperty("vnp_RequestId", vnp_RequestId);
 //        vnp_Params.addProperty("vnp_Version", vnp_Version);
 //        vnp_Params.addProperty("vnp_Command", vnp_Command);
@@ -92,6 +92,6 @@
 //        }
 //        in.close();
 //        System.out.println(response.toString());
-//
+
 //    }
 //}
